@@ -1,17 +1,17 @@
-// SatanÇÁ·ÎÁ§Æ® ÇÏÀ§ subproject´Â ¾Æ·¡ °øÅë Ç×¸ñµéÀº ´Ù »ó¼Ó¹Ş´Â´Ù.
+// Sataní”„ë¡œì íŠ¸ í•˜ìœ„ subprojectëŠ” ì•„ë˜ ê³µí†µ í•­ëª©ë“¤ì€ ë‹¤ ìƒì†ë°›ëŠ”ë‹¤.
 subprojects {
-    apply plugin: 'java'		// java ÇÃ·¯±×ÀÎ ¼³Á¤.
-    apply plugin: 'eclipse'		// eclipse ÇÃ·¯±×ÀÎ ¼³Á¤.
+    apply plugin: 'java'		// java í”ŒëŸ¬ê·¸ì¸ ì„¤ì •.
+    apply plugin: 'eclipse'		// eclipse í”ŒëŸ¬ê·¸ì¸ ì„¤ì •.
 
     repositories {
-       mavenCentral()			// maven ·¹ÆÄÁöÅä¸® ¼³Á¤.
+       mavenCentral()			// maven ë ˆíŒŒì§€í† ë¦¬ ì„¤ì •.
     }
 	/**
-		dependencies 4°³ ¼³Á¤
-		compile : ÇÁ·ÎÁ§Æ®¸¦ ÄÄÆÄÀÏÇÒ ¶§ ÇÊ¿äÇÑ ÀÇÁ¸ ¶óÀÌºê·¯¸®µé
-		runtime : ÇÁ·ÎÁ§Æ®¸¦ ½ÇÇàÇÒ ¶§ ÇÊ¿äÇÑ ÀÇÁ¸ ¶óÀÌºê·¯¸®µé. ±âº»ÀûÀ¸·Î compileÀ» ¸ğµÎ Æ÷ÇÔÇÑ´Ù.
-		testCompile : ÇÁ·ÎÁ§Æ®ÀÇ Å×½ºÆ®¸¦ ÄÄÆÄÀÏÇÒ ¶§ ÇÊ¿äÇÑ ¶óÀÌºê·¯¸®µé. ±âº»ÀûÀ¸·Î ÇÁ·ÎÁ§Æ®ÀÇ ÄÄÆÄÀÏµÈ Å¬·¡½ºµé°ú compile ÀÇÁ¸¼ºÀ» Æ÷ÇÔÇÑ´Ù.
-		testRuntime : ÇÁ·ÎÁ§Æ®ÀÇ Å×½ºÆ®¸¦ ½ÇÇàÇÒ ¶§ ÇÊ¿äÇÑ ¶óÀÌºê·¯¸®µé. ±âº»ÀûÀ¸·Î compile, runtime, testCompile ÀÇÁ¸¼ºÀ» Æ÷ÇÔÇÑ´Ù.
+		dependencies 4ê°œ ì„¤ì •
+		compile : í”„ë¡œì íŠ¸ë¥¼ ì»´íŒŒì¼í•  ë•Œ í•„ìš”í•œ ì˜ì¡´ ë¼ì´ë¸ŒëŸ¬ë¦¬ë“¤
+		runtime : í”„ë¡œì íŠ¸ë¥¼ ì‹¤í–‰í•  ë•Œ í•„ìš”í•œ ì˜ì¡´ ë¼ì´ë¸ŒëŸ¬ë¦¬ë“¤. ê¸°ë³¸ì ìœ¼ë¡œ compileì„ ëª¨ë‘ í¬í•¨í•œë‹¤.
+		testCompile : í”„ë¡œì íŠ¸ì˜ í…ŒìŠ¤íŠ¸ë¥¼ ì»´íŒŒì¼í•  ë•Œ í•„ìš”í•œ ë¼ì´ë¸ŒëŸ¬ë¦¬ë“¤. ê¸°ë³¸ì ìœ¼ë¡œ í”„ë¡œì íŠ¸ì˜ ì»´íŒŒì¼ëœ í´ë˜ìŠ¤ë“¤ê³¼ compile ì˜ì¡´ì„±ì„ í¬í•¨í•œë‹¤.
+		testRuntime : í”„ë¡œì íŠ¸ì˜ í…ŒìŠ¤íŠ¸ë¥¼ ì‹¤í–‰í•  ë•Œ í•„ìš”í•œ ë¼ì´ë¸ŒëŸ¬ë¦¬ë“¤. ê¸°ë³¸ì ìœ¼ë¡œ compile, runtime, testCompile ì˜ì¡´ì„±ì„ í¬í•¨í•œë‹¤.
 	**/
     dependencies {
         testCompile 'junit:junit:4.8.2'
@@ -25,24 +25,24 @@ subprojects {
     }
 }
 
-// ¸ğµç ÇÁ·ÎÁ§Æ®¿¡  Àû¿ëµÉ Å×½ºÅ©¸¦ ¼±¾ğÇÑ´Ù.
+// ëª¨ë“  í”„ë¡œì íŠ¸ì—  ì ìš©ë  í…ŒìŠ¤í¬ë¥¼ ì„ ì–¸í•œë‹¤.
 allprojects{
 	task hello << { task -> println "I'm $task.project.name" }
 }
 
-// ÇÏÀ§ ÇÁ·ÎÁ§Æ®¿¡¸¸ Àû¿ëµÉ Å×½ºÅ©¸¦ ¼±¾ğÇÑ´Ù.
+// í•˜ìœ„ í”„ë¡œì íŠ¸ì—ë§Œ ì ìš©ë  í…ŒìŠ¤í¬ë¥¼ ì„ ì–¸í•œë‹¤.
 subprojects{
 	 hello << {println "- My Load Satan!"}
 }
 
-// ºÎ¸ğ¿¡¼­ Æ¯Á¤ ÇÁ·ÎÁ§Æ®ÀÇ task ¸¦ ¼±¾ğ ÇÒ ¼ö ÀÖ´Ù.
+// ë¶€ëª¨ì—ì„œ íŠ¹ì • í”„ë¡œì íŠ¸ì˜ task ë¥¼ ì„ ì–¸ í•  ìˆ˜ ìˆë‹¤.
 /*
 project("Siren").hello << {
 	println "- I'm the largest animal that has ever lived on this planet."
 }
 */
 
-// ÀÌ¸§ÀÌ Dragon°¡ ¾Æ´Ñ ÇÁ·ÎÁ§Æ®¸¸ Ã£¾Æ¼­ ¼³Á¤
+// ì´ë¦„ì´ Dragonê°€ ì•„ë‹Œ í”„ë¡œì íŠ¸ë§Œ ì°¾ì•„ì„œ ì„¤ì •
 configure(subprojects.findAll { it.name != 'Dragon' }) {
     hello << {println "- I'm Weak Monster."}
 }
