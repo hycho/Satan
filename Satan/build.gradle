@@ -1,0 +1,48 @@
+// Satan프로젝트 하위 subproject는 아래 공통 항목들은 다 상속받는다.
+subprojects {
+    apply plugin: 'java'		// java 플러그인 설정.
+    apply plugin: 'eclipse'		// eclipse 플러그인 설정.
+
+    repositories {
+       mavenCentral()			// maven 레파지토리 설정.
+    }
+	/**
+		dependencies 4개 설정
+		compile : 프로젝트를 컴파일할 때 필요한 의존 라이브러리들
+		runtime : 프로젝트를 실행할 때 필요한 의존 라이브러리들. 기본적으로 compile을 모두 포함한다.
+		testCompile : 프로젝트의 테스트를 컴파일할 때 필요한 라이브러리들. 기본적으로 프로젝트의 컴파일된 클래스들과 compile 의존성을 포함한다.
+		testRuntime : 프로젝트의 테스트를 실행할 때 필요한 라이브러리들. 기본적으로 compile, runtime, testCompile 의존성을 포함한다.
+	**/
+    dependencies {
+        testCompile 'junit:junit:4.8.2'
+    }
+
+	//version 1.0
+    version = '1.0'
+
+    jar {
+        manifest.attributes provider: 'Satan'
+    }
+}
+
+// 모든 프로젝트에  적용될 테스크를 선언한다.
+allprojects{
+	task hello << { task -> println "I'm $task.project.name" }
+}
+
+// 하위 프로젝트에만 적용될 테스크를 선언한다.
+subprojects{
+	 hello << {println "- My Load Satan!"}
+}
+
+// 부모에서 특정 프로젝트의 task 를 선언 할 수 있다.
+/*
+project("Siren").hello << {
+	println "- I'm the largest animal that has ever lived on this planet."
+}
+*/
+
+// 이름이 Dragon가 아닌 프로젝트만 찾아서 설정
+configure(subprojects.findAll { it.name != 'Dragon' }) {
+    hello << {println "- I'm Weak Monster."}
+}
