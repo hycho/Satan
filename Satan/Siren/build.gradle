@@ -1,8 +1,37 @@
+/**
+	eclipse실행을 위해서 아래 명령어를 실행한다.
+	clean
+	cleanEclipse
+	eclipse
+**/
+
+apply plugin: 'war'
+apply plugin: 'eclipse-wtp'
+
+compileJava.options.encoding = 'UTF-8'
+sourceCompatibility = 1.8
+version = '1.0'
+
+eclipse {
+	project.natures 'org.springsource.ide.eclipse.gradle.core.natures'
+    wtp {
+        component {
+            contextPath = 'Siren' // 원하는 contextPath 지정. 단, 빈 컨텍스트패스는 '/' 로 지정
+        }
+        facet {
+            facet name: 'jst.web', version: '3.1' // Servlet Spec Version 지정
+            facet name: 'jst.java', version: '1.8' // Java Version 지정, 1.8 ...
+        }
+    }
+}
 
 dependencies {
 	compile group: 'commons-collections', name: 'commons-collections', version: '3.2'
-}
-
-hello.doLast {
-    println "- Power of sound"
+	compile 'org.springframework:spring-context:4.1.6.RELEASE'
+	compile 'org.springframework:spring-webmvc:4.1.6.RELEASE'
+	compile 'com.fasterxml.jackson.core:jackson-databind:2.5.1'
+	compile 'org.codehaus.jackson:jackson-core-asl:1.9.12'
+	compile 'org.codehaus.jackson:jackson-mapper-asl:1.9.12'
+	
+	providedCompile 'javax.servlet:javax.servlet-api:3.0.1'
 }
