@@ -1,10 +1,3 @@
-/**
-	eclipse실행을 위해서 아래 명령어를 실행한다.
-	clean
-	cleanEclipse
-	eclipse
-**/
-
 apply plugin: 'war'
 apply plugin: 'eclipse-wtp'
 
@@ -16,11 +9,11 @@ eclipse {
 	project.natures 'org.springsource.ide.eclipse.gradle.core.natures'
     wtp {
         component {
-            contextPath = 'Siren' // 원하는 contextPath 지정. 단, 빈 컨텍스트패스는 '/' 로 지정
+            contextPath = 'Siren'
         }
         facet {
-            facet name: 'jst.web', version: '3.1' // Servlet Spec Version 지정
-            facet name: 'jst.java', version: '1.8' // Java Version 지정, 1.8 ...
+            facet name: 'jst.web', version: '3.1'
+            facet name: 'jst.java', version: '1.8'
         }
     }
 }
