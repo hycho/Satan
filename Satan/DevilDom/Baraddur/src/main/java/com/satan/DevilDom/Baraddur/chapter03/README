@@ -57,3 +57,45 @@ java.lang.Runnable소스를 보면 @FunctionalInterface어노테이션이 새로
 예를들어 추상메소드가 2개 이상이면 "Multiple nonoverrinding abstract methods found in interface Foo(인터페이스 Foo안에 오버라이드 하지 않은 여러 추상메소드가 있다)라는 에러가 발생 할 수 있다.
 @FunctionalInterface
 public interface Runnable {
+
+#################################
+# Java 8의 대표적인 함수형 인터페이스 요약 1 #
+#################################
+# 불린표현
+ - (List<String> list) -> list.isEmpty()
+ = Predicate<List<String>>
+# 객체 생성 
+ - () -> new Apple
+ = Supplier<Apple>
+# 객체에서 소비
+ - (Apple a) -> System.out.println(a.getWeight)
+ = Consumer<Apple>
+# 객체에서 선택/추출
+ - (String s) -> s.length()
+ = Function<String, Integer> 또는 ToIntFunction<String>
+# 두 값 조합
+ - (int a, int b) -> a * b
+ = IntBinaryOperator
+# 두 객체 비교 
+ - (Apple a1, Apple a2) -> a1.getWeight().compareTo(a2.getWeight))
+ = Comparator<Apple> 또는 BiFunction<Apple, apple, Integer> 또는 ToIntBiFunction<Apple, Apple>
+
+#################################
+# Java 8의 대표적인 함수형 인터페이스 요약 2 #
+#################################
+Predicate : 파라메터 값을 통해 불린 리턴
+Supplier : no파라메터 이며 객체 생성 리턴
+Consumer : 파라메터를 받으며 무언가를 실행
+Function : 파라메터를 받으며 특정 객체 리턴
+Operator : 파라메터를 받으며 파라메터를 통해 계산후 값을 리턴
+Comparator : 2객체를 사용하여 int 반환
+ 
+
+# Quiz 아래 디스크립터를 사용할 수 있는 람다를 생각해보아라
+
+1. T->R Consumer
+2. (int, int) -> int
+3. T -> void accept
+4. () -> T
+5. (T,U) -> R
+
