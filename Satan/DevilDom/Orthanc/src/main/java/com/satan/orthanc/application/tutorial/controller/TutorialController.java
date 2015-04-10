@@ -8,7 +8,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping(value = "/tutorial")
 public class TutorialController {
 	@RequestMapping(value = "/tutorial01", method = RequestMethod.GET)
-	public String main() {
+	public String tutorial01() {
 		return "/tutorial/tutorial01";
+	}
+	
+	@RequestMapping(value = "/tutorial02", method = RequestMethod.GET)
+	public String tutorial02() {
+		return "/tutorial/tutorial02";
 	}
 }
