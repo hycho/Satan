@@ -12,4 +12,9 @@ public class HomeController {
 		System.out.println("Change Tes111t");
 		return "/home/main";
 	}
+	
+	@RequestMapping(value = "/start", method = RequestMethod.GET)
+	public String start() {
+		return "/orthanc/game";
+	}
 }
