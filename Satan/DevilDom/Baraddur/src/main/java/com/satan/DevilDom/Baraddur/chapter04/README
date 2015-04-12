@@ -55,4 +55,86 @@ List<String> threeHighCaloricDishsName =
 		.collect(toList());	//리스트로 만들어 반환한다.
 		
 # 스트림과 컬렉션의 차이 정리
-		
+ - 컬랙션, 스트림 모두 연속된 요소 형식의 값을 저장하는 자료구조의 인터페이스를 제공. 여기서의 '연속적(sequenced)'표현은 순서와 상관없이 아무 값에나 접속 하는 것이 아니라 순차적으로 갑에 접근한다는 것을 의미한다.
+ - 컬렉션은 현재 자료구조가 포함하는 모든 값을 메모리에 저장하는 구조이다. 컬렉션의 모든요소는 컬렉션에 추가하기 전에 계산이 되어야 한다. (컬렉션에 요소를 추가, 삭제할 수 있다.)
+ - 스트림은 이론적으로는 요청을 할 때마다 요소를 계산하는 자료구조이다. (스트림에 요소를 추가하거나 요소를 제거 할 수 없다)
+ - 스트림을 예로들면 인터넷 검색을 말할 수 있다. 검색어를 임력해서 검색할때 모든 결과를 내려 받을 때까지 기다리지 않고 가장 비슷한 10개정도의 결과요소를 포함하는 스트림을 얻을 수 잇다. 그리고 다음 10개 버튼을 누를경우
+       다음 단계 10개의 값을 다시 계산해서 가져온다.
+
+# 딱 한번만 탐색 할 수 있다.
+ - 탐색된 스트림의 요소는 소비(consume)된다. 반복자(for)와 만찬가지로 한번 탐색한 요소를 다시 탐색하려면 초기 데이터 소스에서 새로운 스트림을 만들어야 한다.
+ - 스트림은 단 한번만 소비할 수 있다는 점을 명심하자.
+<EX 01> 
+List<String> titles = Arrays.asList("Java8", "In", "Action");
+Stream<String> s = titles.stream();
+s.forEach(System.out::println); // 반복하면서 스트림을 소비한다.
+s.forEach(System.out::println); // 여기서는 스트림을 모두 소비해버리는 바람에 오류가 발생한다.
+
+# 또 다른 특징 반속 처리 방법
+ - 외부반복(external iteration) : 컬랙션 인테페이스를 사용하려면 사용자가 직접 요소를 반복해야한다(for-each)
+ - 내부반복(internal iteration) : 스트림은 반복을 알아서 처리하고 결과 스트림값을 어딘가에 저장한다 이것을 내부반복이라 한다.
+ 
+# 스트림 연산
+ - 스틈은 연산은 중간/최종연산이라고 2가지라고 구분한다.
+List<String> threeHighCaloricDishsName = 
+	menu.stream()	// menu에서 스트림을 받는다.
+	.filter(d -> d.getCalories() > 300)	//dish의 칼로리 300이상되는 것만 가져오도록 필터링 한다.
+	.map(Dish::getName)	//필터된 값중 이름만 뽑는다.
+	.limit(3)	//선착순 3개만 표시한다.
+	.collect(toList());	//리스트로 만들어 반환한다.
+	
+ - filter, map, limit는 서로 연결되어 파이프라인을 형성한다 - 중간연산(intermediate operation)
+ - collect로 파이프라인을 실행한 다음에 닫는다 - 최종연산 (terminal operation)
+ - 왜 중간연산, 최종연산 2가지로 구분을 하는 걸까? 
+ 
+# 중간연산
+ - filter, sorted같은 중간연산은 다른 스트림을 반환한다. 따라서 여러 중간연산을 연결해서 질의를 만들 수 있다.
+ - 중간연산의 중요한 특징은 단말 연산을 스트림 파이프라인에서 실행하기 전까진 아무런 연산을 하지 않느다는것 즉 lazy(게으르다)인 것이다. 즉 중간연산을 모두 합치고 합쳐진 중간연산을 최종연산으로 한번에 처리한다.
+<EX 02 소스>
+List<String> names = 
+	menu.stream()
+	.filter(d -> {
+		System.out.println("filtering = "+d.getCalories());
+		return d.getCalories() > 300;
+	})
+	.map(d -> {
+		System.out.println("mapping = " + d.getName());
+		return d.getName();
+	})
+	.limit(3)
+	.collect(toList());
+System.out.println(names);
+
+<EX 02 결과>
+filtering = 800
+mapping = 소세지
+filtering = 700
+mapping = 소고기구이
+filtering = 400
+mapping = 통닭
+[소세지, 소고기구이, 통닭]
+
+ - 스트림 lazy특성 덕분에 최적화 효과를 얻을 수 있었다. 
+ - 첫째 300칼로기 넘는 요리는 여러개지만 오직 처음 3개만 선택 되었다. 이것은 limit연산 그리소 쇼트서킷이라는 불리는 기법 덕분이다.
+ - 둘째 filter와 map은 다른 연산이지만 한과정으로 병합되었다, 이런 기법을 루프 퓨전(loop fusion이라고 한다.) 
+ 
+# 최종 연산
+ - 최종 연산은 스트림 파이프라인에서 결과를 도출 한다. 보통 최종연산에 의해 List, Integer, void등 스트림 이외의 결과가 반환된다.
+ - 아래 forEach는 각 요리에 람다를 적용한 다음에 void를 반환하는 최종 연산이다. System.out.println를 forEach에 넘겨주면 menu에서 만든 스트림의 모든 요리를 출력한다.
+<EX 03>
+menu.stream().forEach(System.out::println);
+
+# 스트림 이용하기
+ - 스트림 이용과정은 다음과 같이 세가지로 요약.
+ (1) 질의를 수행할 데이터소스 (컬렉션 같은)
+ (2) 스트림 파이프라인을 구성할 중간 연산 연결 (filter, map, limit 등등)
+ (3) 스트림 파이프라인을 실행하고 결과를 만들 최종연산 (count, foreach, collect 등등)
+ - 어떻게 보면 빌더 패턴(builder patter)과 비슷하다, 빌더 패턴은 호출을 연결해서 설정을 만들고(중간연산) 준비된 설정에 build메서드를 호출(최종연산)한다.
+ 
+# 요약
+ - 스트림은 소스에서 추출된 연속 요소로, 데이터 처리 연산을 지원한다.
+ - 스트림은 내부 반복을 지원한다. 내부반복은 filter, map, sorted등의 연산으로 반복을 추상하 한다.
+ - 스트림에는 중간 연산, 최종연산이 있다.
+ - filter, map처럼 스트림을 반환하면서 다른 연산과 연결될 수 있는 연산을 중간 연산이라 한다. 중간연산을 이용해서 파이프라인을 구성 할 수 있지만, 중간연산으로는 어떤 결과도 생성할 수 없다.
+ - forEach나 count처럼 스트림 파이프라인을 처리해서 스트림이 아닌 결과를 반환하는 것을 최종 연산이라 한다.
+ - 스트림의 요소는 요청할 때만 계산된다.

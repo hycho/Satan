@@ -1,0 +1,10 @@
+{"frames":[
+{
+	"filename": "title.png",
+	"frame":{"x":0,"y":0,"w":512,"h":50},
+	"rotated":false,
+	"trimmed":false,
+	"spriteSourceSize":{"x":0,"y":0,"w":512,"h":70},
+	"sourceSize":{"w":512,"h":70}
+}
+]}
