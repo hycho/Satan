@@ -6,11 +6,10 @@
 
 <html>
 <head>
-
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script>
 	if(!window.orthanc) {
-		window['orthanc'] = {
+		window['neoneon'] = {
 			ctxOpt : {
 				contextPath : '${contextPath}',
 				resourcesPath : '${resourcesPath}'
@@ -20,11 +19,14 @@
 	
 	// onload
 	window.onload = function() {
-		var game = new Phaser.Game(640, 360, Phaser.AUTO, 'orthanc');
+		var game = new Phaser.Game(640, 360, Phaser.AUTO, 'neoneon');
 		
-		game.state.add('mainMenu', orthanc.mainMenu);
-		game.state.add('mainPage', orthanc.mainPage);
-		game.state.start('mainMenu');
+		game.state.add('boot', neoneon.Boot);
+		game.state.add('preloader', neoneon.Preloader);
+		game.state.add('mainMenu', neoneon.MainMenu);
+		game.state.add('game', neoneon.Game);
+		
+		game.state.start('boot');
 	};
 	
 </script>
@@ -32,7 +34,13 @@
 </head>
 <body>
 <script src="${resourcesPath}/js/phaser.js"></script>
-<script src="${resourcesPath}/js/state/mainMenu.js"></script>
-<script src="${resourcesPath}/js/state/mainPage.js"></script>
+
+<!-- Setup game Neoneon -->
+<script src="${resourcesPath}/js/setup/boot.js"></script>
+<script src="${resourcesPath}/js/setup/preloader.js"></script>
+<script src="${resourcesPath}/js/setup/mainMenu.js"></script>
+
+<!-- Develop game Neoneon -->
+<script src="${resourcesPath}/js/game/game.js"></script>
 </body>
 </html>

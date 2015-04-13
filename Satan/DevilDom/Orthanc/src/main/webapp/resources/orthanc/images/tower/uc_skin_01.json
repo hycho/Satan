@@ -6,5 +6,13 @@
 	"trimmed":false,
 	"spriteSourceSize":{"x":0,"y":0,"w":512,"h":70},
 	"sourceSize":{"w":512,"h":70}
+},
+{
+	"filename": "headerBubble.png",
+	"frame":{"x":182,"y":70,"w":66,"h":50},
+	"rotated":false,
+	"trimmed":false,
+	"spriteSourceSize":{"x":182,"y":70,"w":66,"h":50},
+	"sourceSize":{"w":66,"h":50}
 }
 ]}
