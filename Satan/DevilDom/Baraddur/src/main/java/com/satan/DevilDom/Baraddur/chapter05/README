@@ -111,4 +111,15 @@ List<Dish> dishes =
 	System.out.println("모두다 건강식");
  } 
  
+ <noneMatch>
+ //noneMatch는 주어진 요소중에서 predicate와 일치하는 요소가 없는지 체크한다, allMatch과 반대라고 보시면 된다.
+ if(menu.stream().noneMatch(d->d.getCalories() > 1000)){
+	System.out.println("제길 난 기름진 음식이 먹고 싶어.");
+ }
  
+ - 위에서 테스트 해본 anyMatch, allMatch, noneMatch 세가지 메서드는 스트림쇼트서킷 이라는 기법, 즉 자바의 &&, ||과 같은 연산을 활용한다.
+ - 쇼트 서킷이란 스트림의 모든 요소를 처리 할 필요없이 현재 생성된 결과를 바탕으로 결과를 결정하는 것이라 할 수 있다. 모든 요소를 처리 할 필요없이 주어진 크기의 스트림을 생성하는 limit도 쇼트 서킷 연산이다.
+ 
+
+# 잠깐 Optional에 관해서 간략히 알아보자
+ -Optional<T> 클래스(Java.util.Optional)은 값의 존재나 부재 여부를 표현하는 컨테이너 클래스이다. 

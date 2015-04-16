@@ -14,7 +14,7 @@ public class Example03 {
 		List<Dish> menu = Arrays.asList(
 				new Dish("소세지", false, 800, Dish.Type.MEAT),
 				new Dish("소고기구이", false, 700, Dish.Type.MEAT),
-				new Dish("통닭", false, 1400, Dish.Type.MEAT),
+				new Dish("통닭", false, 400, Dish.Type.MEAT),
 				new Dish("감자튀김", true, 540, Dish.Type.OTHER),
 				new Dish("쌀밥", true, 350, Dish.Type.OTHER),
 				new Dish("오늘의 과일", true, 120, Dish.Type.OTHER),
@@ -22,7 +22,7 @@ public class Example03 {
 				new Dish("고등어", false, 300, Dish.Type.FISH),
 				new Dish("연어", false, 450, Dish.Type.FISH));
 		
-		allMatchByPredicate(menu);
+		noneMatchByPredicate(menu);
 	}
 	
 	public static void anyMatchByPredicate(List<Dish> menu) {
@@ -37,6 +37,13 @@ public class Example03 {
 		// 모두다 주어진 프리디케이트를 통과해야 true아니면 false
 		if(menu.stream().allMatch(d->d.getCalories() < 1000)){
 			System.out.println("모두다 건강식");
+		}
+	}
+	
+	public static void noneMatchByPredicate(List<Dish> menu) {
+		//noneMatch는 주어진 요소중에서 predicate와 일치하는 요소가 없는지 체크한다, allMatch과 반대라고 보시면 된다.
+		if(menu.stream().noneMatch(d->d.getCalories() > 1000)){
+			System.out.println("제길 난 기름진 음식이 먹고 싶어.");
 		}
 	}
 }
