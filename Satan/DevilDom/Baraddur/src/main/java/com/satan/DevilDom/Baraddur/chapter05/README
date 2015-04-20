@@ -120,6 +120,49 @@ List<Dish> dishes =
  - 위에서 테스트 해본 anyMatch, allMatch, noneMatch 세가지 메서드는 스트림쇼트서킷 이라는 기법, 즉 자바의 &&, ||과 같은 연산을 활용한다.
  - 쇼트 서킷이란 스트림의 모든 요소를 처리 할 필요없이 현재 생성된 결과를 바탕으로 결과를 결정하는 것이라 할 수 있다. 모든 요소를 처리 할 필요없이 주어진 크기의 스트림을 생성하는 limit도 쇼트 서킷 연산이다.
  
+<findAny>
+//filter와 findAny를 사용해서 채식 요리들을 뽑을 수 있다.
+//findAny는 optional<T>를 반환한다 optional은 README를 참조 
+Optional<Dish> dish = menu.stream()
+							.filter(Dish::isVegetarian)
+							.findAny();
+
+<findFirst>
+//findfirst를 통해서 1번째 데이터 반환
+List<Integer> someNumbers = Arrays.asList(1,2,3,4,5);
+Optional<Integer> firstSquareDivisibleByThree = 
+		someNumbers.stream()
+		.map(x -> x * x)
+		.filter(x -> x % 3 == 0)
+		.findFirst();
+		
+System.out.println(firstSquareDivisibleByThree.get());
 
 # 잠깐 Optional에 관해서 간략히 알아보자
- -Optional<T> 클래스(Java.util.Optional)은 값의 존재나 부재 여부를 표현하는 컨테이너 클래스이다. 
+ -Optional<T> 클래스(Java.util.Optional)은 값의 존재나 부재 여부를 표현하는 컨테이너 클래스이다. 차후 10장에서 자세히 설명한다.
+ -isPresent() : Optional이 값을 포함하면 참(true) 포함하지 않으면 거짓(false)을 반환한다.
+ -ifPresent(Consumer<T> block)은 값이 있으면 주어진 로직을 실행
+ -T get()은 값이 존재하면 반환, 없으면 NoSuchElementException을 발생.
+ -T orElse(T other)는 값이 있으면 값을 반환, 없으면 기본값을 반환한다.
+
+# FindFirst와 findAny는 언제 사용하나?
+ - findFirst나 findAny 두 메서드가 왜 필요할까? 병렬성때문이라 한다. 병렬실행에서는 첫번째 요소를 찾기가 매우 힘들다. 만약 요소의 반환 순서가 상관없다면 병렬 스트림에서는 제약이 적은 findAny를 사용하길 바란다.
+ 
+# 리듀싱
+ - 리듀싱 : 모든 스트림 요소를 처리 해서 값으로 도출 하는 작업
+ - BinalyOperation을 통해서 연산 데이터를 반환한다.
+ - 아래는 List값을 for문, reduce를 사용한 방법에 대해서 간략히 정리했다. 
+<EX>
+int sum = 0;
+for(int x : numbers) {
+	sum += x;
+}
+// reduce첫번째 파라메터는 초기값, 2번째는 BinalyOperation<T>이다.
+int sum = numbers.stream().reduce(0, (a, b) -> a + b);
+int sum1 = numbers.stream().reduce(0, Integer::sum);	//Integer Sum static 메소드 제공
+int multiply = numbers.stream().reduce(1, (a, b) -> a * b);
+
+// 초기값을 받지 않는 reduce도 있다 이것은 Optional<T>를 반환한다. 만약 스트림에 아무요소도 없을 경우 초기값이 없으므로 reduce는 연산결과를 반환할 수 없다. 그래서 연산 결과가 없음을 가르킬 수 있도록 Optional 객체로 감싸서 반환한다.
+Optional<Integer> sum = numbers.stream().reduce((a, b) -> (a + b));
+
+# 최대/최소값

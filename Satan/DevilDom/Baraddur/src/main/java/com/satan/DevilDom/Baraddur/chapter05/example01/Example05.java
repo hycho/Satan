@@ -6,7 +6,7 @@ import java.util.Optional;
 
 import com.satan.DevilDom.Baraddur.chapter04.model.Dish;
 
-public class Example04 {
+public class Example05 {
 	public static void main(String[] args) {
 		
 		List<Dish> menu = Arrays.asList(
@@ -20,14 +20,20 @@ public class Example04 {
 				new Dish("고등어", false, 300, Dish.Type.FISH),
 				new Dish("연어", false, 450, Dish.Type.FISH));
 	
+		findFirstData();
 	}
-	
-	public static void findAnyFilter(List<Dish> menu) {
-		//filter와 findAny를 사용해서 채식 요리들을 뽑을 수 있다.
-		// findAny는 optional<T>를 반환한다 optional은 README를 참조 
-		Optional<Dish> dish = menu.stream()
-									.filter(Dish::isVegetarian)
-									.findAny();
+
+	// findFirst
+	public static void findFirstData() {
+		List<Integer> someNumbers = Arrays.asList(1,2,3,4,5);
+		Optional<Integer> firstSquareDivisibleByThree = 
+				someNumbers.stream()
+				.map(x -> x * x)
+				.filter(x -> x % 3 == 0)
+				.findFirst();
 		
+		System.out.println(firstSquareDivisibleByThree.get());
+		
+		firstSquareDivisibleByThree.ifPresent((Integer a) -> System.out.println(a.toString()));
 	}
 }
