@@ -11,4 +11,9 @@ public class HomeController {
 	public String main() {
 		return "/home/index";
 	}
+	
+	@RequestMapping(value = "/home1", method = RequestMethod.GET)
+	public String main1() {
+		return "/home/index1";
+	}
 }

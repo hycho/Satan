@@ -166,3 +166,30 @@ int multiply = numbers.stream().reduce(1, (a, b) -> a * b);
 Optional<Integer> sum = numbers.stream().reduce((a, b) -> (a + b));
 
 # 최대/최소값
+- reduce를 사용해서 최대 값 최소값을 다음과 같이 구현할 수 있다.
+Optional<Integer> max = numbers.stream().reduce(Integer::max);
+Optional<Integer> min = numbers.stream().reduce(Integer::min);
+System.out.println("Max = " + max.get());
+System.out.println("Min = " + min.get());
+
+# 숫자형 스트림
+//여기엔 내부적으로 합계를 계산하기 전에 Integer를 int(기본형)으로 언 박싱 해야한다... 이런 박싱 비용을 피할 수 잇도록 각 요소에 특화된 IntStream...등을 제공한다.		
+int carories = menu.stream()
+					.map(Dish::getCalories)
+					.reduce(0, Integer::sum);
+
+//기본형 특화 스트림(primitive stream specialization)은 mapToInt, mapToDouble, mapToLong이 세가지를 가장 많이 사용한다.
+- 특화스트림은 오직 박싱 과정에서 일어나는 효율성과 관련있으며 스트림 추가 기능은 제공하지 않는다 기억하길 바란다.
+int carories = menu.stream()
+					.mapToInt(Dish::getCalories)
+					.sum();					
+					
+- 특화 스트림에서 boxed메소드를 통해 객체 스트림으로 복원 할 수 있다.
+IntStream intStream = menu.stream().mapToInt(Dish::getCalories);
+Stream<Integer> steram = intStream.boxed();
+
+- 합계는 0이라는 기본값이 주어지기에 별문제가 없지만 max, min경우 0이라는 기본값 때문에 잘못된 결과가 도출 될 수 있다.
+- 스트림 요소가 없을때, 진짜 최대값이 0인 상황을 어떻게 구분할까? 이런것은 Optional을 통해서 처리를 할 수 있으며, 특화 스트림 버전인 OptionalInt, OptionalDouble, OptionalLong 세가지 를 제공한다. 
+OptionalInt maxCalories = menu.stream().mapToInt(Dish::getCalories).max(); 
+int max = maxCalories.orElse(1); //값이 없을때 기본 최댓값을 1로 설정.
+
