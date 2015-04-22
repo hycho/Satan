@@ -204,3 +204,5 @@ IntStream evenNumbers2 = IntStream.range(1, 100)
 
 System.out.println(evenNumbers.count());
 System.out.println(evenNumbers2.count());
+
+# 숫자 스트림을 사용한 피타고라스 수
