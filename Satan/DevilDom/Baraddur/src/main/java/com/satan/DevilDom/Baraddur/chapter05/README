@@ -206,3 +206,13 @@ System.out.println(evenNumbers.count());
 System.out.println(evenNumbers2.count());
 
 # 숫자 스트림을 사용한 피타고라스 수
+Stream<double[]> pitas =  
+	IntStream.rangeClosed(1, 100)
+		.boxed()	//int를  integer로 boxing
+		.flatMap(	//flatMap을 통해서 각각의 고유의 스트림으로 map로직을 동작시킨다고 보면된다.
+			a -> IntStream.range(a, 100)	// 각각의 a부터 100까지의 수를 생성한다.
+							.mapToObj(b-> new double[] {a, b, Math.sqrt(a*a + b*b)})
+							.filter(t -> t[2] % 1 == 0)
+		);
+	
+	pitas.forEach(t -> System.out.println(t[0] + ", " + t[1] + ", " + t[2]));
