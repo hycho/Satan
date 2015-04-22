@@ -193,3 +193,14 @@ Stream<Integer> steram = intStream.boxed();
 OptionalInt maxCalories = menu.stream().mapToInt(Dish::getCalories).max(); 
 int max = maxCalories.orElse(1); //값이 없을때 기본 최댓값을 1로 설정.
 
+# 숫자 범위 (range와 rangeClosed)
+- 특정 범위의 숫자를 생성 하려고 할때 사용.
+//rangeClose는 1부터 100까지
+IntStream evenNumbers = IntStream.rangeClosed(1, 100)
+									.filter(n -> n % 2 == 0);
+// range는 2부터 99까지 즉 파라메터 1과 100은 무시된다.
+IntStream evenNumbers2 = IntStream.range(1, 100)
+									.filter(n -> n % 2 == 0);
+
+System.out.println(evenNumbers.count());
+System.out.println(evenNumbers2.count());
