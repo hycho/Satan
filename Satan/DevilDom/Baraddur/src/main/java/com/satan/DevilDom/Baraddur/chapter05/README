@@ -216,3 +216,46 @@ Stream<double[]> pitas =
 		);
 	
 	pitas.forEach(t -> System.out.println(t[0] + ", " + t[1] + ", " + t[2]));
+	
+# 스트림 만들기
+//Stream.of를 통해 스트림 생성
+Stream<String> stream = Stream.of("Java8", "Lambdas ", "In ", "Action");
+stream.map(String::toUpperCase).forEach(System.out::println);
+
+- Stream.empty()를 통해 빈 스트림을 생성할수 있다.
+Stream<String> emptyStream = Stream.empty();
+
+- Arrays.stream을 통해서 배열을 스트림으로 만들 수 있다.
+int[] numbers = {2,3,4,5,6,7};
+//Arrays.stream을 이용해서 IntStream을 생성 할 수 있다.
+int sum = Arrays.stream(numbers).sum();
+System.out.println(sum);
+
+//Files.lines는 파일의 행을 Stream으로 반환한다.
+long uniqueWords = lines.flatMap(line -> Arrays.stream(line.split(" ")))	//flatMap을 통해서 각 라인의 행들의 단어를 구하고 계산한다.
+		.distinct()
+		.count();
+System.out.println(uniqueWords);
+
+# 무한 스트림 만들기
+ - Stream Api는 Stream.iterate와 Stream.generate를 통해 스트림을 만들 수 있다. 이것을 이용해 무한 스트림을 만들 수 있는데 보통 무한하지 않게 limit(n)와 같이 사용한다.
+
+//iterate를 통해서 스트림을 만든다.
+// iterate는 요청할 때마다 값을 생산 할 수 있으며 끝이 없으므로 무한 스트림을 만든다. 이러한 스트림을 언바운드 스트림(unbounded stream)이라 한다.
+Stream.iterate(0, n -> n + 2)
+		.limit(10)
+		.forEach(System.out::println);
+		
+// iterate와 다르게 각값을 연속적으로 계산하지 않고 Supplier<T>를 인수로 받아서 새로운 값을 계속 생성한다.
+Stream.generate(Math::random)
+.limit(5)
+.forEach(System.out::println);
+
+<정리>
+- filter, distinct, skip, limit메서드로 스트림을 필터링 하거나 자를 수 있다.
+- map, flatMap 메서드로 스트림의 요소를 추출하거나 변환 가능하다.
+- findFirst, finAny를 통해 스트림 요소 검색 가능, allMatch, noneMatch, anyMatch메서드를 이용해서 주어진 프레디케이트(true)와 일치하는 요소를 검색.
+- 위 요소는 쇼트서킷 이며 결과를 찾는 즉시 반환 하고 전체 스트림을 처리하진 않는다.
+- reduce를 통해서 스트림의 모든 요소(데이터)를 반복 조합하며 값을 만들 수 있다. 스트림의 최대,최소값을 구할 수 있다.
+- IntStream, DoubleStream, LongStream은 기본형 특화 스트림이다 이들은 각각의 기본형에 맞게 특화되어있다.
+- Collection뿐 아니라 값, 배열, 파일, iterate, generate같은 스트림 제공 메서드로 스트림을 만들 수 잇다.		
